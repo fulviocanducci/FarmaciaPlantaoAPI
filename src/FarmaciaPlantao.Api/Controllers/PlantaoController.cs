@@ -28,8 +28,8 @@ namespace FarmaciaPlantao.Api.Controllers
             
             var tem = _agendasRepository.Find(x => x.Inicio <= agora && x.Fim >= agora);
 
-            if(tem == null)
-                return NotFound("Sem farmácias de plantão no momento")
+            if (tem == null)
+                return NotFound("Sem farmácias de plantão no momento");
 
             return Ok(tem);
         }
