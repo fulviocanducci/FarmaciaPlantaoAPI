@@ -31,7 +31,7 @@ namespace FarmaciaPlantao.Api.Controllers
             if (tem == null)
                 return NotFound("Sem farmácias de plantão no momento");
 
-            return Ok(tem);
+            return Ok(tem.Farmacia);
         }
     }
 }
