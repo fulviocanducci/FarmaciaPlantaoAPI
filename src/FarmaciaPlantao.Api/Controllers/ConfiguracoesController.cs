@@ -2,6 +2,7 @@
 using FarmaciaPlantao.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,42 @@ namespace FarmaciaPlantao.Api.Controllers
             _estadoRepository = estadoRepository;
             _agendasRepository = agendasRepository;
         }
+        //[HttpGet("inicio")]
+        //public void Teste()
+        //{
+        //    string farmaciaId;
+        //    string inicio;
+        //    string fim;
+        //    var path = @"C:\Users\Ygor Prates\Desktop\farmacias.csv";
+        //    using (TextFieldParser csvReader = new TextFieldParser(path))
+        //    {
+        //        csvReader.SetDelimiters(new string[] { ";" });
+        //        csvReader.HasFieldsEnclosedInQuotes = true;
+
+        //        // Skip the row with the column names
+        //        csvReader.ReadLine();
+
+        //        while (!csvReader.EndOfData)
+        //        {
+        //            // Read current line fields, pointer moves to the next line.
+        //            string[] fields = csvReader.ReadFields();
+        //            farmaciaId = fields[0];
+        //            inicio = fields[1];
+        //            fim = fields[2];
+
+        //            var farmacia = _farmaciaRepository.Find(x => x.Id == new MongoDB.Bson.ObjectId(farmaciaId));
+        //            var agenda = new Agenda()
+        //            {
+        //                Inicio = Convert.ToDateTime(inicio),
+        //                Fim = Convert.ToDateTime(fim),
+        //                Farmacia = farmacia
+        //            };
+
+        //            _agendasRepository.Add(agenda);
+        //        }
+
+        //    }
+        //}
 
         //[HttpGet("inicio")]
         //public void Inicio()

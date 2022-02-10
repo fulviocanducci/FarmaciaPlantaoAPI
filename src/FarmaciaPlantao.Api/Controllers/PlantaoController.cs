@@ -34,7 +34,7 @@ namespace FarmaciaPlantao.Api.Controllers
             if (tem == null)
                 return NotFound("Sem farmácias de plantão no momento");
 
-            return Ok(tem.Farmacia);
+            return Ok(ToAgendaDTO(tem));
         }
 
         [HttpGet("por-cidadeId")]
