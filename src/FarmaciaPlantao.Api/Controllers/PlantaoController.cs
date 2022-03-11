@@ -24,11 +24,10 @@ namespace FarmaciaPlantao.Api.Controllers
         [HttpGet]
         public ObjectResult Inicio()
         {
-            var agora = DateTime.Now;
-
-            if (agora.Hour > 22 && agora.Minute > 1)
+            if (!FarmaciaAberta())
                 return NotFound("Farmácias fechadas!");
             
+            var agora = DateTime.Now;
             var tem = _agendasRepository.Find(x => x.Inicio <= agora && x.Fim >= agora);
 
             if (tem == null)
@@ -39,12 +38,11 @@ namespace FarmaciaPlantao.Api.Controllers
 
         [HttpGet("por-cidadeId")]
         public ObjectResult PorCidadeId(string cidadeId)
-        {
-            var agora = DateTime.Now;
-
-            if (agora.Hour > 22 && agora.Minute > 1)
+        {           
+            if (!FarmaciaAberta())
                 return NotFound("Farmácias fechadas!");
 
+            var agora = DateTime.Now;
             var tem = _agendasRepository.Find(x => x.Farmacia.Cidade.Id == new ObjectId(cidadeId) && x.Inicio <= agora && x.Fim >= agora);
 
             if (tem == null)
@@ -52,6 +50,16 @@ namespace FarmaciaPlantao.Api.Controllers
 
             return Ok(ToAgendaDTO(tem));
         }
+
+        public bool FarmaciaAberta()
+        {
+            var agora = DateTime.Now;
+            if (agora < new DateTime(agora.Year, agora.Month, agora.Day, 8, 0, 0) || agora > new DateTime(agora.Year, agora.Month, agora.Day, 22, 0, 0))
+                return false;
+
+            return true;
+        }
+
 
         private AgendaDTO ToAgendaDTO(Agenda agenda)
         {

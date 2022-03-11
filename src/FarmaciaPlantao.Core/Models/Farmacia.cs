@@ -19,6 +19,8 @@ namespace FarmaciaPlantao.Core.Models
         public string Telefone { get; set; }
         public string Whatsapp { get; set; }
         public string UrlImagem { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         public Cidade Cidade { get; set; }
     }
 }
