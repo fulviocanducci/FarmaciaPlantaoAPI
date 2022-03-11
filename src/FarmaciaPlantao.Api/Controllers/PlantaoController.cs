@@ -51,7 +51,7 @@ namespace FarmaciaPlantao.Api.Controllers
             return Ok(ToAgendaDTO(tem));
         }
 
-        public bool FarmaciaAberta()
+        private bool FarmaciaAberta()
         {
             var agora = DateTime.Now;
             if (agora < new DateTime(agora.Year, agora.Month, agora.Day, 8, 0, 0) || agora > new DateTime(agora.Year, agora.Month, agora.Day, 22, 0, 0))
