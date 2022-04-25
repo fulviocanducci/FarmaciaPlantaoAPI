@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace FarmaciaPlantao.Api.Controllers
 {
     [ApiController]
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = true)]
     [Route("[controller]")]
     public class ConfiguracoesController : ControllerBase
-    {        
+    {
 
         private readonly ILogger<ConfiguracoesController> _logger;
         private readonly FarmaciaRepository _farmaciaRepository;
@@ -30,6 +30,14 @@ namespace FarmaciaPlantao.Api.Controllers
             _estadoRepository = estadoRepository;
             _agendasRepository = agendasRepository;
         }
+
+        [HttpGet("inicio")]
+        public ActionResult Teste()
+        {
+            var objeto = new Farmacia() { Nome = "Mopa" };
+            return StatusCode(406, objeto);
+        }
+
         //[HttpGet("inicio")]
         //public void Teste()
         //{

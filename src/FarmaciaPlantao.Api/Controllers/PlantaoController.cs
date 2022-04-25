@@ -1,5 +1,6 @@
 ﻿using FarmaciaPlantao.Api.DTOs;
 using FarmaciaPlantao.Api.Repository;
+using FarmaciaPlantao.Core.Communication.Notificacoes;
 using FarmaciaPlantao.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -12,41 +13,42 @@ namespace FarmaciaPlantao.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PlantaoController : Controller
+    public class PlantaoController : PadraoController
     {
+        
         private readonly AgendasRepository _agendasRepository;
 
-        public PlantaoController(AgendasRepository agendasRepository)
+        public PlantaoController(INotificador notificador,AgendasRepository agendasRepository) : base(notificador)
         {
             _agendasRepository = agendasRepository;
         }
 
         [HttpGet]
-        public ObjectResult Inicio()
+        public ActionResult<AgendaDTO> Inicio()
         {
             if (!FarmaciaAberta())
-                return NotFound("Farmácias fechadas!");
+                _notificador.Notificar("Farmácias fechadas!");
             
             var agora = DateTime.Now;
             var tem = _agendasRepository.Find(x => x.Inicio <= agora && x.Fim >= agora);
 
             if (tem == null)
-                return NotFound("Sem farmácias de plantão no momento");
+                _notificador.Notificar("Sem farmácias de plantão no momento");
 
-            return Ok(ToAgendaDTO(tem));
+            return CustomResponse(ToAgendaDTO(tem));
         }
 
         [HttpGet("por-cidadeId")]
-        public ObjectResult PorCidadeId(string cidadeId)
+        public ActionResult<AgendaDTO> PorCidadeId(string cidadeId)
         {           
             if (!FarmaciaAberta())
-                return NotFound("Farmácias fechadas!");
+                _notificador.Notificar("Farmácias fechadas!");
 
             var agora = DateTime.Now;
             var tem = _agendasRepository.Find(x => x.Farmacia.Cidade.Id == new ObjectId(cidadeId) && x.Inicio <= agora && x.Fim >= agora);
 
             if (tem == null)
-                return NotFound("Sem farmácias de plantão no momento");
+                _notificador.Notificar("Sem farmácias de plantão no momento");
 
             return Ok(ToAgendaDTO(tem));
         }
