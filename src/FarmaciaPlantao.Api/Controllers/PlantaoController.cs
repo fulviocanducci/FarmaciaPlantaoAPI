@@ -27,13 +27,19 @@ namespace FarmaciaPlantao.Api.Controllers
         public ActionResult<AgendaDTO> Inicio()
         {
             if (!FarmaciaAberta())
+            {
                 _notificador.Notificar("Farmácias fechadas!");
+                return CustomResponse();
+            }
             
             var agora = DateTime.Now;
             var tem = _agendasRepository.Find(x => x.Inicio <= agora && x.Fim >= agora);
 
             if (tem == null)
+            {
                 _notificador.Notificar("Sem farmácias de plantão no momento");
+                return CustomResponse();
+            }
 
             return CustomResponse(ToAgendaDTO(tem));
         }
@@ -56,15 +62,17 @@ namespace FarmaciaPlantao.Api.Controllers
         private bool FarmaciaAberta()
         {
             var agora = DateTime.Now;
-            if (agora < new DateTime(agora.Year, agora.Month, agora.Day, 8, 0, 0) || agora > new DateTime(agora.Year, agora.Month, agora.Day, 22, 0, 0))
-                return false;
+            if (agora >= new DateTime(agora.Year, agora.Month, agora.Day, 8, 0, 0) && agora <= new DateTime(agora.Year, agora.Month, agora.Day, 22, 0, 0))
+                return true;
 
-            return true;
+            return false;
         }
 
 
         private AgendaDTO ToAgendaDTO(Agenda agenda)
         {
+            if (agenda == null) return null;
+
             return new AgendaDTO()
             {
                 Inicio = agenda.Inicio,
