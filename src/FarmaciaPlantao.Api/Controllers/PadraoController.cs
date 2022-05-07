@@ -20,7 +20,7 @@ namespace FarmaciaPlantao.Api.Controllers
 
         protected bool OperacaoValida()
         {
-            return !_notificador.TemNotificacao();
+            return !_notificador.TemNotificacoes();
         }
 
         protected ActionResult CustomResponse(object result = null)
