@@ -1,5 +1,6 @@
 ﻿using FarmaciaPlantao.Api.DTOs;
 using FarmaciaPlantao.Api.Repository;
+using FarmaciaPlantao.Core.Communication.Notificacoes;
 using FarmaciaPlantao.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,20 +12,20 @@ namespace FarmaciaPlantao.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EstadosController : Controller
+    public class EstadosController : PadraoController
     {
         private readonly EstadoRepository _estadoRepository;
 
-        public EstadosController(EstadoRepository estadoRepository)
+        public EstadosController(INotificador notificador, EstadoRepository estadoRepository) : base(notificador)
         {
             _estadoRepository = estadoRepository;
         }
 
         [HttpGet("todos")]
-        public IActionResult Index()
+        public ActionResult Index()
         {
             var estados = _estadoRepository.All();
-            return Ok(ToEstadosDTO(estados));
+            return CustomResponse(ToEstadosDTO(estados));
         }
 
 

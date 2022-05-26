@@ -1,5 +1,6 @@
 ﻿using FarmaciaPlantao.Api.DTOs;
 using FarmaciaPlantao.Api.Repository;
+using FarmaciaPlantao.Core.Communication.Notificacoes;
 using FarmaciaPlantao.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,19 +12,19 @@ namespace FarmaciaPlantao.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CidadesController : Controller
+    public class CidadesController : PadraoController
     {
         private readonly CidadesRepository _cidadesRepository;
 
-        public CidadesController(CidadesRepository cidadesRepository)
+        public CidadesController(INotificador notificador, CidadesRepository cidadesRepository) : base(notificador)
         {
             _cidadesRepository = cidadesRepository;
         }
         [HttpGet("por-estado")]
-        public IActionResult Index(string estadoId)
+        public ActionResult Index(string estadoId)
         {
             var cidades = _cidadesRepository.All(x => x.Estado.Id == new MongoDB.Bson.ObjectId(estadoId));
-            return Ok(ToCidadesDTO(cidades));
+            return CustomResponse(ToCidadesDTO(cidades));
         }
 
         private List<CidadeDTO> ToCidadesDTO(IEnumerable<Cidade> cidades)

@@ -1,5 +1,7 @@
 using FarmaciaPlantao.Api.Repository;
 using FarmaciaPlantao.Core;
+using FarmaciaPlantao.Core.Communication;
+using FarmaciaPlantao.Core.Communication.Notificacoes;
 using FarmaciaPlantao.Core.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -45,6 +47,8 @@ namespace FarmaciaPlantao.Api
                 });
             });
 
+
+            services.AddScoped<INotificador, Notificador>();
             // Add Repository MongoDB e Connect
             // Connect
             services.AddScoped<IConnect, Connect>();
