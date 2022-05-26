@@ -28,7 +28,7 @@ namespace FarmaciaPlantao.Api.Controllers
         {
             if (!FarmaciaAberta())
             {
-                _notificador.Notificar("Farmácias fechadas!");
+                _notificador.Notificar("Farmácias fechadas!" + DateTime.Now);
                 return CustomResponse();
             }
             
