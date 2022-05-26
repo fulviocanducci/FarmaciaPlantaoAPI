@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Globalization;
+using System.Threading;
 
 namespace FarmaciaPlantao.Api
 {
@@ -18,6 +20,8 @@ namespace FarmaciaPlantao.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("pt-BR");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("pt-BR");
         }
 
         public IConfiguration Configuration { get; }
