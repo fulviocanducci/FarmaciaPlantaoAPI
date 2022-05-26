@@ -48,7 +48,7 @@ namespace FarmaciaPlantao.Api.Controllers
         public ActionResult<AgendaDTO> PorCidadeId(string cidadeId)
         {           
             if (!FarmaciaAberta())
-                _notificador.Notificar("Farmácias fechadas!");
+                _notificador.Notificar("Farmácias fechadas!" + DateTime.Now);
 
             var agora = DateTime.Now;
             var tem = _agendasRepository.Find(x => x.Farmacia.Cidade.Id == new ObjectId(cidadeId) && x.Inicio <= agora && x.Fim >= agora);
