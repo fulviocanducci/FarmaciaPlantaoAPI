@@ -28,11 +28,11 @@ namespace FarmaciaPlantao.Api.Controllers
         {
             if (!FarmaciaAberta())
             {
-                _notificador.Notificar("Farmácias fechadas!" + DateTime.Now);
+                _notificador.Notificar("Farmácias fechadas!");
                 return CustomResponse();
             }
             
-            var agora = DateTime.Now;
+            var agora = DateTime.Now.ToLocalTime();
             var tem = _agendasRepository.Find(x => x.Inicio <= agora && x.Fim >= agora);
 
             if (tem == null)
@@ -50,7 +50,7 @@ namespace FarmaciaPlantao.Api.Controllers
             if (!FarmaciaAberta())
                 _notificador.Notificar("Farmácias fechadas!" + DateTime.Now);
 
-            var agora = DateTime.Now;
+            var agora = DateTime.Now.ToLocalTime();
             var tem = _agendasRepository.Find(x => x.Farmacia.Cidade.Id == new ObjectId(cidadeId) && x.Inicio <= agora && x.Fim >= agora);
 
             if (tem == null)
@@ -61,7 +61,7 @@ namespace FarmaciaPlantao.Api.Controllers
 
         private bool FarmaciaAberta()
         {
-            var agora = DateTime.Now;
+            var agora = DateTime.Now.ToLocalTime();
             if (agora >= new DateTime(agora.Year, agora.Month, agora.Day, 8, 0, 0) && agora <= new DateTime(agora.Year, agora.Month, agora.Day, 22, 0, 0))
                 return true;
 
